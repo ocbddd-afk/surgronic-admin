@@ -74,7 +74,7 @@ function showTab(id) {
 async function load() {
   try {
     // Pure static: fetch JSON directly (no backend needed)
-    const res = await fetch('/assets/catalog-data-v2.json');
+    const res = await fetch('./assets/catalog-data-v2.json');
     allProducts = await res.json();
     const total = allProducts.length;
     document.getElementById('stat-products').textContent = total.toLocaleString();
