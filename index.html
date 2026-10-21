@@ -4,96 +4,123 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Surgronic Control Center</title>
+<link rel="stylesheet" href="https://ocbddd-afk.github.io/surgronic-website/styles.css">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f1f5f9; color: #0f172a; }
-header { background: #071426; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-header h1 { font-size: 1.25rem; }
-.tabs { display: flex; gap: 0.5rem; padding: 1rem 2rem 0; }
-.tabs button { padding: 0.75rem 1.5rem; border: none; background: white; border-radius: 0.5rem 0.5rem 0 0; cursor: pointer; font-size: 0.95rem; }
-.tabs button.active { background: #071426; color: white; }
-.content { padding: 1.5rem 2rem; }
-.panel { display: none; background: white; border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-.panel.active { display: block; }
-.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
-.stat { background: #f8fafc; padding: 1.25rem; border-radius: 0.5rem; border-left: 4px solid #3186f6; }
-.stat .num { font-size: 2rem; font-weight: 700; color: #071426; }
-.stat .label { color: #64748b; font-size: 0.9rem; margin-top: 0.25rem; }
-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-th, td { text-align: left; padding: 0.75rem; border-bottom: 1px solid #e2e8f0; font-size: 0.9rem; }
-th { background: #f8fafc; font-weight: 600; color: #475569; }
-.notice { background: #fef3c7; border: 1px solid #f59e0b; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1.5rem; font-size: 0.9rem; }
-.search-bar { margin-bottom: 1rem; display: flex; gap: 0.5rem; }
-.search-bar input { flex: 1; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; }
-#loading { text-align: center; padding: 3rem; color: #64748b; }
+.admin-layout { display: flex; min-height: 100vh; }
+.sidebar { width: 260px; background: #071426; color: white; padding: 1.5rem 0; position: sticky; top: 0; height: 100vh; }
+.sidebar .logo { padding: 0 1.5rem 1.5rem; font-size: 1.4rem; font-weight: 800; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 1rem; }
+.sidebar .logo span { color: #3186F6; }
+.sidebar nav a { display: block; padding: 0.875rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.95rem; }
+.sidebar nav a:hover, .sidebar nav a.active { background: rgba(255,255,255,0.08); color: white; }
+.main { flex: 1; padding: 2rem; background: #f8fafc; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-bottom: 2rem; }
+.stat-card { background: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.stat-card .label { font-size: 0.85rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-card .value { font-size: 2rem; font-weight: 800; color: #071426; margin-top: 0.25rem; }
+.notice { background: #fef3c7; border: 1px solid #f59e0b; border-radius: 0.75rem; padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.9rem; }
+.data-table { width: 100%; background: white; border-radius: 1rem; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.data-table table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.data-table th { background: #071426; color: white; padding: 0.875rem 1rem; text-align: left; font-weight: 600; }
+.data-table td { padding: 0.875rem 1rem; border-bottom: 1px solid #e2e8f0; }
+.data-table tr:hover td { background: #f8fafc; }
+.data-table img { width: 50px; height: 50px; object-fit: contain; background: #f8fafc; border-radius: 0.5rem; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
 </style>
 </head>
 <body>
-<header>
-<h1>Surgronic Control Center</h1>
-<div style="font-size:0.85rem; opacity:0.7;">Super Admin</div>
-</header>
-<div class="notice">
-⚠️ Database editing is temporarily unavailable (daily limit resets at 01:00). Product viewing and RFQ review are fully operational.
+<div class="admin-layout">
+<div class="sidebar">
+<div class="logo">SURGRONIC<span>.</span></div>
+<nav>
+<a href="#" class="active" data-tab="dashboard">📊 Dashboard</a>
+<a href="#" data-tab="products">📦 Products</a>
+<a href="#" data-tab="rfqs">📋 RFQs</a>
+<a href="https://ocbddd-afk.github.io/surgronic-website/" target="_blank">🌐 View Website</a>
+</nav>
 </div>
-<div class="tabs">
-<button class="active" onclick="showTab('dashboard')">Dashboard</button>
-<button onclick="showTab('products')">Products</button>
-<button onclick="showTab('rfqs')">RFQs</button>
+<div class="main">
+<div class="notice">⚠️ Database editing is temporarily unavailable (Cloudflare D1 limit resets at 01:00). Product viewing is fully operational via the shared catalogue.</div>
+
+<div id="tab-dashboard" class="tab-content active">
+<h1 style="margin-bottom: 1.5rem; color: #071426;">Dashboard</h1>
+<div class="stat-grid" id="stats">
+<div class="stat-card"><div class="label">Products</div><div class="value" id="stat-products">—</div></div>
+<div class="stat-card"><div class="label">With Images</div><div class="value" id="stat-images">—</div></div>
+<div class="stat-card"><div class="label">Brands</div><div class="value" id="stat-brands">—</div></div>
+<div class="stat-card"><div class="label">RFQs</div><div class="value">0</div></div>
 </div>
-<div class="content">
-<div id="dashboard" class="panel active">
-<h2 style="margin-bottom:1rem;">Overview</h2>
-<div class="stat-grid">
-<div class="stat"><div class="num" id="stat-products">—</div><div class="label">Products</div></div>
-<div class="stat"><div class="num" id="stat-images">—</div><div class="label">With Images</div></div>
-<div class="stat"><div class="num" id="stat-brands">2</div><div class="label">Brands</div></div>
-<div class="stat"><div class="num" id="stat-rfqs">—</div><div class="label">RFQs</div></div>
+<h2 style="color: #071426; margin-bottom: 1rem;">Recent Products</h2>
+<div class="data-table"><table><thead><tr><th></th><th>SKU</th><th>Name</th><th>Brand</th></tr></thead><tbody id="recent"></tbody></table></div>
 </div>
-<div id="loading">Loading...</div>
+
+<div id="tab-products" class="tab-content">
+<h1 style="margin-bottom: 1.5rem; color: #071426;">Products</h1>
+<div style="margin-bottom: 1rem; display: flex; gap: 1rem;">
+<input type="text" id="p-search" placeholder="Search products..." style="flex:1; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 0.5rem;">
+<select id="p-brand" style="padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 0.5rem;">
+<option value="">All Brands</option><option value="aesculap">Aesculap</option><option value="sklar">Sklar</option>
+</select>
 </div>
-<div id="products" class="panel">
-<h2 style="margin-bottom:1rem;">Products</h2>
-<div class="search-bar"><input type="text" id="psearch" placeholder="Search products..." oninput="renderProducts()"></div>
-<table><thead><tr><th>SKU</th><th>Name</th><th>Brand</th><th>Price</th></tr></thead><tbody id="ptbody"></tbody></table>
+<div class="data-table"><table><thead><tr><th></th><th>SKU</th><th>Name</th><th>Brand</th><th>Price</th></tr></thead><tbody id="plist"></tbody></table></div>
+<div id="p-more" style="text-align: center; padding: 1rem; color: #64748b;"></div>
 </div>
-<div id="rfqs" class="panel">
-<h2 style="margin-bottom:1rem;">Quotation Requests</h2>
-<p style="color:#64748b;">RFQ submissions appear here. New requests are held for review.</p>
-<table><thead><tr><th>ID</th><th>Date</th><th>Product</th><th>Contact</th><th>Status</th></tr></thead><tbody id="rbody"><tr><td colspan="5" style="text-align:center; color:#94a3b8; padding:2rem;">No RFQs yet</td></tr></tbody></table>
+
+<div id="tab-rfqs" class="tab-content">
+<h1 style="margin-bottom: 1.5rem; color: #071426;">RFQs</h1>
+<p style="color: #64748b;">Quotation requests submitted via the website form are sent to <strong>yusuf@surgronic.com</strong>. WhatsApp requests go directly to +90 552 608 1432.</p>
+<div class="notice" style="margin-top: 1rem;">RFQ database sync resumes at 01:00 when D1 resets. Until then, check your email and WhatsApp for new requests.</div>
 </div>
 </div>
+</div>
+
 <script>
-let allProducts = [];
-function showTab(id) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  event.target.classList.add('active');
-}
-async function load() {
+let PRODUCTS = [];
+const IMG_BASE = 'https://ocbddd-afk.github.io/surgronic-website/assets/';
+async function init() {
   try {
-    // Pure static: fetch JSON directly (no backend needed)
     const res = await fetch('./assets/catalog-data-v2.json');
-    allProducts = await res.json();
-    const total = allProducts.length;
-    document.getElementById('stat-products').textContent = total.toLocaleString();
-    const withImg = allProducts.filter(p => p.imageFiles && p.imageFiles[0] && p.imageFiles[0] !== 'placeholder.svg').length;
-    document.getElementById('stat-images').textContent = withImg.toLocaleString();
-    document.getElementById('loading').style.display = 'none';
+    if (!res.ok) throw new Error('Failed to load catalogue (' + res.status + ')');
+    PRODUCTS = await res.json();
+    document.getElementById('stat-products').textContent = PRODUCTS.length.toLocaleString();
+    document.getElementById('stat-images').textContent = PRODUCTS.filter(p => p.imageFiles && p.imageFiles[0] && p.imageFiles[0] !== 'placeholder.svg').length.toLocaleString();
+    document.getElementById('stat-brands').textContent = new Set(PRODUCTS.map(p => p.brand)).size;
+    document.getElementById('recent').innerHTML = PRODUCTS.slice(0, 10).map(p => {
+      const img = IMG_BASE + ((p.imageFiles&&p.imageFiles[0])||'placeholder.svg');
+      return '<tr><td><img src="' + img + '" onerror="this.src=\'' + IMG_BASE + 'placeholder.svg\'"></td><td>' + p.sku + '</td><td>' + (p.name||'') + '</td><td>' + (p.brand||'') + '</td></tr>';
+    }).join('');
     renderProducts();
   } catch(e) {
-    document.getElementById('loading').textContent = 'Error: ' + e.message;
+    document.getElementById('stats').innerHTML = '<div style="color:#dc2626; padding:2rem;">Error: ' + e.message + '</div>';
   }
 }
 function renderProducts() {
-  const s = document.getElementById('psearch').value.toLowerCase();
-  const f = allProducts.filter(p => !s || (p.name||'').toLowerCase().includes(s) || (p.sku||'').toLowerCase().includes(s)).slice(0, 100);
-  document.getElementById('ptbody').innerHTML = f.map(p => 
-    `<tr><td style="font-family:monospace; font-size:0.8rem;">${p.sku||''}</td><td>${p.name||''}</td><td>${p.brand||''}</td><td>Price on request</td></tr>`
-  ).join('') || '<tr><td colspan="4" style="text-align:center; color:#94a3b8;">No matches</td></tr>';
+  const q = document.getElementById('p-search').value.toLowerCase();
+  const b = document.getElementById('p-brand').value.toLowerCase();
+  let f = PRODUCTS.filter(p => {
+    if (q && !(p.name||'').toLowerCase().includes(q) && !(p.sku||'').toLowerCase().includes(q)) return false;
+    if (b && (p.brand||'').toLowerCase() !== b) return false;
+    return true;
+  });
+  const show = f.slice(0, 100);
+  document.getElementById('plist').innerHTML = show.map(p => {
+    const img = IMG_BASE + ((p.imageFiles&&p.imageFiles[0])||'placeholder.svg');
+    return '<tr><td><img src="' + img + '" onerror="this.src=\'' + IMG_BASE + 'placeholder.svg\'"></td><td>' + p.sku + '</td><td>' + (p.name||'') + '</td><td>' + (p.brand||'') + '</td><td>Price on request</td></tr>';
+  }).join('');
+  document.getElementById('p-more').textContent = f.length > 100 ? 'Showing 100 of ' + f.length.toLocaleString() + ' — refine search' : f.length.toLocaleString() + ' products';
 }
-load();
+document.querySelectorAll('.sidebar nav a[data-tab]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelectorAll('.sidebar nav a').forEach(x => x.classList.remove('active'));
+    a.classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + a.dataset.tab).classList.add('active');
+  });
+});
+document.getElementById('p-search').addEventListener('input', renderProducts);
+document.getElementById('p-brand').addEventListener('change', renderProducts);
+init();
 </script>
 </body>
 </html>
