@@ -418,12 +418,20 @@ let dashboardLoaded=false;
 async function init() {
   if(dashboardLoaded) return; dashboardLoaded=true;
   try {
-    const res = await fetch('./assets/catalog-data-v2.json');
+    // Live database sync via Cloudflare API (same DB as frontend)
+    const res = await fetch('https://surgronic.pages.dev/actions', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({action: 'listProducts', args: {limit: 100}})
+    });
     if (!res.ok) throw new Error('Failed to load catalogue (' + res.status + ')');
-    PRODUCTS = await res.json();
-    document.getElementById('stat-products').textContent = PRODUCTS.length.toLocaleString();
-    document.getElementById('stat-images').textContent = PRODUCTS.filter(p => p.imageFiles && p.imageFiles[0] && p.imageFiles[0] !== 'placeholder.svg').length.toLocaleString();
-    document.getElementById('stat-brands').textContent = new Set(PRODUCTS.map(p => p.brand)).size;
+    const data = await res.json();
+    const total = data.data.total;
+    PRODUCTS = data.data.products;
+    // Get full count for stats (live from database)
+    document.getElementById('stat-products').textContent = total.toLocaleString();
+    document.getElementById('stat-images').textContent = '—';
+    document.getElementById('stat-brands').textContent = '—';
     document.getElementById('recent').innerHTML = PRODUCTS.slice(0, 10).map(p => {
       const img = IMG_BASE + ((p.imageFiles&&p.imageFiles[0])||'placeholder.svg');
       return '<tr><td><img loading="lazy" src="' + img + '" onerror="this.src=\'' + IMG_BASE + 'placeholder.svg\'" alt=""></td><td dir="ltr">' + p.sku + '</td><td>' + esc(p.name||'') + '</td><td>' + esc(p.brand||'') + '</td></tr>';
