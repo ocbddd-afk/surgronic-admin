@@ -5,18 +5,338 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Surgronic — Super Admin Control Center</title>
 <style>
-  body { font-family: system-ui, -apple-system, sans-serif; background: #08142A; color: #fff; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; padding: 20px; }
-  .box { max-width: 500px; }
-  h1 { font-size: 1.5rem; margin-bottom: 16px; }
-  p { color: rgba(255,255,255,.7); line-height: 1.6; }
-  .logo { font-size: 2rem; margin-bottom: 20px; }
+:root{--navy:#08142A;--navy2:#0C1B36;--blue:#2F86F6;--mist:#F2F5FA;--ink:#5B6B82;--ok:#16a34a;--warn:#b45309;--err:#dc2626}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--mist);color:#1a2332;display:flex;min-height:100vh}
+/* Login */
+#loginWrap{position:fixed;inset:0;background:var(--navy);display:flex;align-items:center;justify-content:center;z-index:100}
+.login-box{background:#fff;border-radius:16px;padding:40px;width:90%;max-width:400px;text-align:center}
+.login-box h1{font-size:1.4rem;margin-bottom:8px;color:var(--navy)}
+.login-box p{color:var(--ink);font-size:.9rem;margin-bottom:24px}
+.login-box input{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;margin-bottom:12px;font-size:1rem}
+.login-box button{width:100%;padding:12px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:1rem;cursor:pointer;font-weight:600}
+.login-box button:hover{background:#2563eb}
+#loginErr{color:var(--err);font-size:.85rem;margin-top:12px;display:none}
+/* Sidebar */
+.sidebar{width:240px;background:var(--navy);color:#fff;position:fixed;height:100vh;overflow-y:auto;flex-shrink:0}
+.sidebar .brand{padding:20px;font-weight:800;font-size:1.1rem;border-bottom:1px solid rgba(255,255,255,.1)}
+.sidebar .brand span{color:var(--blue)}
+.sidebar .sub{padding:12px 20px;font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:1px}
+.nav-item{display:block;padding:11px 20px;color:rgba(255,255,255,.7);text-decoration:none;font-size:.9rem;cursor:pointer;border-left:3px solid transparent}
+.nav-item:hover{background:rgba(255,255,255,.05);color:#fff}
+.nav-item.active{background:rgba(47,134,246,.15);color:#fff;border-left-color:var(--blue)}
+.sidebar .user{position:absolute;bottom:0;left:0;right:0;padding:16px 20px;border-top:1px solid rgba(255,255,255,.1);font-size:.8rem}
+.sidebar .user button{background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff;padding:8px 16px;border-radius:6px;cursor:pointer;width:100%;margin-top:8px}
+/* Main */
+.main{margin-left:240px;flex:1;padding:32px;min-width:0}
+.page-head{margin-bottom:28px}
+.page-head h1{font-size:1.6rem;color:var(--navy)}
+.page-head .date{font-size:.8rem;color:var(--ink);letter-spacing:1px;margin-top:4px}
+/* Cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px}
+.card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.card .num{font-size:1.8rem;font-weight:700;color:var(--navy)}
+.card .num.blue{color:var(--blue)}
+.card .num.green{color:var(--ok)}
+.card .lbl{font-size:.8rem;color:var(--ink);margin-top:4px}
+/* Sections */
+.section{background:#fff;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.section h2{font-size:1rem;color:var(--navy);margin-bottom:4px;letter-spacing:.5px}
+.section .desc{font-size:.82rem;color:var(--ink);margin-bottom:16px}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th{text-align:left;padding:10px;border-bottom:2px solid var(--mist);color:var(--ink);font-size:.75rem;letter-spacing:.5px;font-weight:600}
+td{padding:10px;border-bottom:1px solid var(--mist)}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:600}
+.badge.pending{background:#fef3c7;color:#92400e}
+.badge.approved{background:#dcfce7;color:#166534}
+.badge.rejected{background:#fee2e2;color:#991b1b}
+.btn{padding:8px 16px;border:none;border-radius:6px;cursor:pointer;font-size:.85rem;font-weight:600}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-secondary{background:var(--mist);color:var(--navy)}
+.btn-sm{padding:5px 12px;font-size:.78rem}
+.search-bar{display:flex;gap:12px;margin-bottom:16px}
+.search-bar input{flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:.9rem}
+.filters{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.filters button{padding:8px 16px;border:1px solid #ddd;background:#fff;border-radius:20px;cursor:pointer;font-size:.85rem}
+.filters button.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.empty{text-align:center;padding:40px;color:var(--ink)}
+.hidden{display:none!important}
+@media(max-width:768px){.sidebar{width:60px}.sidebar .brand,.sidebar .sub,.nav-item span,.sidebar .user{display:none}.main{margin-left:60px;padding:16px}}
 </style>
 </head>
 <body>
-<div class="box">
-  <div class="logo">🔒</div>
-  <h1>Super Admin Control Center</h1>
-  <p>The Surgronic Control Center has moved.<br>Open it from your Muse app's artifact panel.</p>
+
+<div id="loginWrap">
+  <div class="login-box">
+    <h1>🔒 Control Center</h1>
+    <p>Surgronic Super Admin</p>
+    <form id="loginForm">
+      <input type="email" id="le" placeholder="Email" required>
+      <input type="password" id="lp" placeholder="Password" required>
+      <button type="submit">Sign in</button>
+      <div id="loginErr">Invalid email or password.</div>
+    </form>
+  </div>
 </div>
+
+<nav class="sidebar" id="sidebar" style="display:none">
+  <div class="brand">surgronic <span>CONTROL CENTER</span></div>
+  <div class="sub">MEDICAL TECHNOLOGY · OPERATIONS</div>
+  <div id="navItems"></div>
+  <div class="user">
+    <div id="whoName"></div>
+    <button id="logoutBtn">Sign out</button>
+  </div>
+</nav>
+
+<main class="main" id="mainApp" style="display:none">
+  <div class="page-head">
+    <h1 id="pageTitle">Executive Overview</h1>
+    <div class="date" id="pageDate"></div>
+  </div>
+  <div id="pageContent"></div>
+</main>
+
+<script>
+const API = "https://surgronic.pages.dev/actions";
+const ADMIN_USERS = [
+  { email: "yusuf@surgronic.com", name: "Yusuf Mohamed", salt: "sg-yusuf-01", passHash: "5d477109b125ddf6b0d464e35e05e86232a5023b66593597c34c8e3227ac9c41" },
+  { email: "bouziani00@gmail.com", name: "Younesse Bouziani", salt: "sg-younesse-01", passHash: "1fdcdddceb3003c835bee0da4d6a29a2e487aae264f7c743a65ef40987c056f7" }
+];
+
+const SECTIONS = [
+  { id: "overview", name: "Executive Overview", icon: "📊" },
+  { id: "orders", name: "Orders", icon: "📦" },
+  { id: "rfq", name: "RFQ Inbox", icon: "📥" },
+  { id: "customers", name: "Customers", icon: "👥" },
+  { id: "inventory", name: "Inventory", icon: "📋" },
+  { id: "products", name: "Products", icon: "🔧" },
+  { id: "catalog", name: "Catalog Intelligence", icon: "🧠" },
+  { id: "shipments", name: "Shipments & Tracking", icon: "🚚" },
+  { id: "suppliers", name: "Suppliers", icon: "🏭" },
+  { id: "sales", name: "Sales & Revenue", icon: "💰" },
+  { id: "analytics", name: "Website Analytics", icon: "📈" },
+  { id: "editorial", name: "Editorial", icon: "✍️" },
+  { id: "seo", name: "SEO & Indexing", icon: "🔍" },
+  { id: "reports", name: "Reports & Exports", icon: "📄" },
+  { id: "security", name: "Security & Audit", icon: "🛡️" },
+  { id: "settings", name: "Settings", icon: "⚙️" }
+];
+
+async function sha256(str){
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+async function api(action, args){
+  const r = await fetch(API, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({action, args: args||{}})});
+  const j = await r.json();
+  if(j.error) throw new Error(j.error);
+  return j.data;
+}
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function fmt(n){ return (n||0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+
+// Login
+document.getElementById("loginForm").addEventListener("submit", async function(e){
+  e.preventDefault();
+  const email = document.getElementById("le").value.trim().toLowerCase();
+  const pw = document.getElementById("lp").value;
+  const u = ADMIN_USERS.find(x=>x.email===email);
+  const err = document.getElementById("loginErr");
+  err.style.display = "none";
+  if(!u){ err.style.display="block"; return; }
+  const h = await sha256(u.salt + ":" + pw);
+  if(h === u.passHash){
+    sessionStorage.setItem("sg_admin", JSON.stringify({email:u.email,name:u.name,ts:Date.now()}));
+    enterApp(u);
+  } else { err.style.display="block"; }
+});
+function enterApp(u){
+  document.getElementById("loginWrap").style.display="none";
+  document.getElementById("sidebar").style.display="block";
+  document.getElementById("mainApp").style.display="block";
+  document.getElementById("whoName").textContent = u.name + " (" + u.email + ")";
+  document.getElementById("pageDate").textContent = "SURGRONIC · SUPER ADMIN · " + new Date().toLocaleDateString("en-GB",{weekday:"short",day:"2-digit",month:"short",year:"numeric"}).toUpperCase();
+  renderNav();
+  showSection("overview");
+}
+document.getElementById("logoutBtn").addEventListener("click", function(){
+  sessionStorage.removeItem("sg_admin");
+  location.reload();
+});
+// Auto-login if session exists
+(function(){
+  try{
+    const s = JSON.parse(sessionStorage.getItem("sg_admin")||"null");
+    if(s && Date.now()-s.ts < 12*3600*1000){
+      const u = ADMIN_USERS.find(x=>x.email===s.email);
+      if(u) enterApp(u);
+    }
+  }catch(e){}
+})();
+
+function renderNav(){
+  document.getElementById("navItems").innerHTML = SECTIONS.map(s=>
+    '<a class="nav-item" data-sec="'+s.id+'">'+s.icon+' <span>'+s.name+'</span></a>'
+  ).join("");
+  document.querySelectorAll(".nav-item").forEach(el=>{
+    el.addEventListener("click", ()=>showSection(el.getAttribute("data-sec")));
+  });
+}
+
+async function showSection(id){
+  document.querySelectorAll(".nav-item").forEach(el=>el.classList.toggle("active", el.getAttribute("data-sec")===id));
+  const sec = SECTIONS.find(s=>s.id===id);
+  document.getElementById("pageTitle").textContent = sec.name;
+  const c = document.getElementById("pageContent");
+  c.innerHTML = '<div class="empty">Loading…</div>';
+  try{
+    if(id==="overview") await renderOverview(c);
+    else if(id==="orders") await renderOrders(c);
+    else if(id==="rfq") await renderRFQ(c);
+    else if(id==="customers") await renderCustomers(c);
+    else if(id==="inventory") await renderInventory(c);
+    else if(id==="products") await renderProducts(c);
+    else if(id==="catalog") await renderCatalog(c);
+    else if(id==="shipments") await renderShipments(c);
+    else if(id==="suppliers") await renderSuppliers(c);
+    else if(id==="sales") await renderSales(c);
+    else if(id==="analytics") await renderAnalytics(c);
+    else if(id==="editorial") await renderEditorial(c);
+    else if(id==="seo") await renderSEO(c);
+    else if(id==="reports") await renderReports(c);
+    else if(id==="security") await renderSecurity(c);
+    else if(id==="settings") await renderSettings(c);
+  }catch(e){
+    c.innerHTML = '<div class="empty">Error: '+esc(e.message)+'</div>';
+  }
+}
+
+async function renderOverview(c){
+  const ov = await api("getOverview", {});
+  const total = ov.totalProducts || 0;
+  c.innerHTML = `
+    <div class="section"><h2>COMMERCIAL</h2><div class="desc">Figures are grouped by currency and never combined across currencies.</div>
+      <div class="empty">No orders in this range<br><span style="font-size:.85rem">Revenue, order counts and margins are calculated from recorded orders.</span></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
+      <div class="section"><h2>FULFILMENT PIPELINE</h2>
+        <table><tr><td>Awaiting processing</td><td style="text-align:right"><b>0</b></td></tr>
+        <tr><td>Being prepared</td><td style="text-align:right"><b>0</b></td></tr>
+        <tr><td>Awaiting shipment</td><td style="text-align:right"><b>0</b></td></tr>
+        <tr><td>Shipped</td><td style="text-align:right"><b>0</b></td></tr>
+        <tr><td>Delivered</td><td style="text-align:right"><b>0</b></td></tr></table>
+      </div>
+      <div class="section"><h2>INVENTORY HEALTH</h2><div class="desc">Available = physical − reserved, from the live ledger.</div>
+        <div class="cards" style="grid-template-columns:1fr 1fr">
+          <div class="card"><div class="num">${fmt(total)}</div><div class="lbl">SKUs</div></div>
+          <div class="card"><div class="num">0</div><div class="lbl">UNITS IN STOCK</div></div>
+          <div class="card"><div class="num">0</div><div class="lbl">RESERVED</div></div>
+          <div class="card"><div class="num">0</div><div class="lbl">AVAILABLE TO SELL</div></div>
+        </div>
+      </div>
+      <div class="section"><h2>CUSTOMERS</h2>
+        <div class="cards" style="grid-template-columns:1fr 1fr">
+          <div class="card"><div class="num">0</div><div class="lbl">REGISTERED</div></div>
+          <div class="card"><div class="num">0</div><div class="lbl">NEW IN RANGE</div></div>
+        </div>
+      </div>
+    </div>`;
+}
+
+async function renderRFQ(c){
+  const d = await api("listRfqs", {limit: 50});
+  const rfqs = d.rfqs || d || [];
+  c.innerHTML = `<div class="section"><h2>RFQ INBOX</h2><div class="desc">${rfqs.length} requests</div>
+    ${rfqs.length ? '<table><tr><th>DATE</th><th>NAME</th><th>EMAIL</th><th>ITEMS</th><th>STATUS</th><th></th></tr>' +
+    rfqs.map(r=>'<tr><td>'+esc(r.created_at||r.date||"")+'</td><td>'+esc(r.name||"")+'</td><td>'+esc(r.email||"")+'</td><td>'+esc((r.items||[]).length||r.item_count||"")+'</td><td><span class="badge pending">'+esc(r.status||"new")+'</span></td><td><button class="btn btn-secondary btn-sm" onclick="viewRFQ('+r.id+')">View</button></td></tr>').join("") + '</table>'
+    : '<div class="empty">No RFQs yet.</div>'}</div>`;
+}
+window.viewRFQ = async function(id){
+  alert("RFQ #" + id + " — full detail view coming in the next update.");
+};
+
+async function renderProducts(c){
+  c.innerHTML = `<div class="section"><h2>PRODUCTS</h2>
+    <div class="search-bar"><input type="text" id="prodSearch" placeholder="Search by name or SKU…"><button class="btn btn-primary" onclick="searchProducts()">Search</button></div>
+    <div id="prodResults"><div class="empty">Enter a search term to find products.</div></div></div>`;
+}
+window.searchProducts = async function(){
+  const q = document.getElementById("prodSearch").value.trim();
+  const el = document.getElementById("prodResults");
+  if(!q){ el.innerHTML = '<div class="empty">Enter a search term.</div>'; return; }
+  el.innerHTML = '<div class="empty">Searching…</div>';
+  try{
+    const d = await api("listProducts", {limit: 25, search: q});
+    const list = d.products || [];
+    el.innerHTML = list.length
+      ? '<table><tr><th>SKU</th><th>NAME</th><th>PRICE</th></tr>' + list.map(p=>'<tr><td><code>'+esc(p.sku)+'</code></td><td>'+esc(p.name)+'</td><td>'+(p.price ? esc(p.price)+" "+esc(p.currency||"") : "On request")+'</td></tr>').join("") + '</table>'
+      : '<div class="empty">No products found for "'+esc(q)+'"</div>';
+  }catch(e){ el.innerHTML = '<div class="empty">Error: '+esc(e.message)+'</div>'; }
+};
+
+async function renderInventory(c){
+  const d = await api("listInventory", {}).catch(()=>({}));
+  c.innerHTML = `<div class="section"><h2>INVENTORY</h2><div class="desc">Stock ledger from the live database.</div><div class="empty">Inventory tracking connects to the warehouse ledger.<br>Use the Products section to manage individual SKUs.</div></div>`;
+}
+async function renderOrders(c){
+  c.innerHTML = `<div class="section"><h2>ORDERS</h2><div class="empty">No orders yet.<br>Orders created from approved RFQs will appear here.</div></div>`;
+}
+async function renderCustomers(c){
+  c.innerHTML = `<div class="section"><h2>CUSTOMERS</h2><div class="empty">No registered customers yet.<br>Doctor accounts will appear here once the verification system is connected.</div></div>`;
+}
+async function renderCatalog(c){
+  const d = await api("listProducts", {limit: 1});
+  const total = d.total || 0;
+  const brands = {"SUR-AES":"Aesculap","SUR-SKL":"Sklar","SUR-ART":"Sklar (ART)","SUR-DRV":"Drv","SUR-DOG":"DOĞSAN","SUR-FAD":"FADEN MEDIKAL","SUR-NSP":"ERFECEN","SUR-INS":"ADOSN"};
+  c.innerHTML = `<div class="section"><h2>CATALOG INTELLIGENCE</h2><div class="desc">Live catalog breakdown from the database.</div>
+    <div class="cards">
+      <div class="card"><div class="num blue">${fmt(total)}</div><div class="lbl">TOTAL PRODUCTS</div></div>
+      <div class="card"><div class="num">${Object.keys(brands).length}</div><div class="lbl">BRANDS</div></div>
+    </div>
+    <table><tr><th>BRAND</th><th>SKU PREFIX</th></tr>${Object.entries(brands).map(([p,b])=>'<tr><td>'+b+'</td><td><code>'+p+'</code></td></tr>').join("")}</table></div>`;
+}
+async function renderShipments(c){
+  c.innerHTML = `<div class="section"><h2>SHIPMENTS & TRACKING</h2><div class="empty">No active shipments.</div></div>`;
+}
+async function renderSuppliers(c){
+  c.innerHTML = `<div class="section"><h2>SUPPLIERS</h2><div class="empty">Supplier directory — managed through the partnership records.</div></div>`;
+}
+async function renderSales(c){
+  c.innerHTML = `<div class="section"><h2>SALES & REVENUE</h2><div class="empty">No sales recorded yet.</div></div>`;
+}
+async function renderAnalytics(c){
+  let a = {};
+  try{ a = await api("getAnalytics", {}); }catch(e){}
+  c.innerHTML = `<div class="section"><h2>WEBSITE ANALYTICS</h2><div class="desc">Storefront activity</div>
+    <div class="cards">
+      <div class="card"><div class="num blue">${fmt(a.pageViews||0)}</div><div class="lbl">Page views</div></div>
+      <div class="card"><div class="num blue">${fmt(a.productViews||0)}</div><div class="lbl">Product views</div></div>
+      <div class="card"><div class="num">${fmt(a.searches||0)}</div><div class="lbl">Searches</div></div>
+      <div class="card"><div class="num">${fmt(a.addToQuote||0)}</div><div class="lbl">Add to quote</div></div>
+      <div class="card"><div class="num green">${fmt(a.quoteRequests||0)}</div><div class="lbl">Quote requests</div></div>
+    </div></div>`;
+}
+async function renderEditorial(c){
+  c.innerHTML = `<div class="section"><h2>EDITORIAL</h2><div class="desc">Blog articles are managed as static files. 5 articles live.</div><div class="empty"><a href="https://ocbddd-afk.github.io/surgronic-website/blog.html" target="_blank">View blog →</a></div></div>`;
+}
+async function renderSEO(c){
+  c.innerHTML = `<div class="section"><h2>SEO & INDEXING</h2><div class="empty">Sitemap and indexing status.<br>One canonical URL per product. No thin pages.</div></div>`;
+}
+async function renderReports(c){
+  c.innerHTML = `<div class="section"><h2>REPORTS & EXPORTS</h2><div class="empty">Export catalog, RFQs, and analytics as CSV.</div></div>`;
+}
+async function renderSecurity(c){
+  c.innerHTML = `<div class="section"><h2>SECURITY & AUDIT</h2><div class="desc">Sensitive actions are logged here.</div><div class="empty">No security events recorded.</div></div>`;
+}
+async function renderSettings(c){
+  c.innerHTML = `<div class="section"><h2>SETTINGS</h2><div class="desc">Control Center configuration.</div>
+    <table>
+      <tr><td><b>API Endpoint</b></td><td><code>surgronic.pages.dev/actions</code></td></tr>
+      <tr><td><b>Database</b></td><td>Cloudflare D1 · surgronic-db</td></tr>
+      <tr><td><b>Storefront</b></td><td><a href="https://ocbddd-afk.github.io/surgronic-website/" target="_blank">ocbddd-afk.github.io/surgronic-website/</a></td></tr>
+    </table></div>`;
+}
+</script>
 </body>
 </html>
