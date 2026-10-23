@@ -92,8 +92,8 @@ tr:last-child td{border-bottom:0}
 <script>
 var API = "https://surgronic.pages.dev/actions";
 var ADMIN_USERS = [
-  { email: "yusuf@surgronic.com",  name: "Yusuf Mohamed",    salt: "sg-yusuf-01",    passHash: "c0849a3c855004594039aa6d0f498e038e5043bcc85353c9673b0e2ad4d56150" },
-  { email: "bouziani00@gmail.com", name: "Younesse Bouziani", salt: "sg-younesse-01", passHash: "d2a30dbdfafc5ffa0e0805db864472d924f8ec40f290f9685b94a3ad6b872396" }
+  { email: "yusuf@surgronic.com",  name: "Yusuf Mohamed",    salt: "sg-yusuf-01",    passHash: "5d477109b125ddf6b0d464e35e05e86232a5023b66593597c34c8e3227ac9c41" },
+  { email: "bouziani00@gmail.com", name: "Younesse Bouziani", salt: "sg-younesse-01", passHash: "1fdcdddceb3003c835bee0da4d6a29a2e487aae264f7c743a65ef40987c056f7" }
 ];
 function sha256(s){ return crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)).then(function(b){ return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join(""); }); }
 function api(action, args){
