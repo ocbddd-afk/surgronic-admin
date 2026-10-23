@@ -5,61 +5,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Surgronic — Super Admin Control Center</title>
 <style>
-:root{--navy:#08142A;--navy2:#0C1B36;--blue:#2F86F6;--mist:#F2F5FA;--ink:#5B6B82;--ok:#16a34a;--warn:#b45309;--err:#dc2626}
+:root{--bg:#edf0f3;--surface:#ffffff;--surface-alt:#f6f8fa;--text:#101b29;--dim:#5b6b7f;--border:#d7dee6;--accent:#1d6fe0;--accent-dark:#155cb8;--navy:#081527;--navy-2:#0d2138;--navy-text:#c7d5e6;--navy-dim:#7e96b3;--green:#1e9e6a;--amber:#d98a06;--red:#d64545;--radius:8px}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,-apple-system,sans-serif;background:var(--mist);color:#1a2332;display:flex;min-height:100vh}
+body{font-family:'Avenir Next','Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh}
+.font-data{font-family:ui-monospace,'SF Mono',Cascadia Mono,monospace;font-variant-numeric:tabular-nums}
 /* Login */
 #loginWrap{position:fixed;inset:0;background:var(--navy);display:flex;align-items:center;justify-content:center;z-index:100}
 .login-box{background:#fff;border-radius:16px;padding:40px;width:90%;max-width:400px;text-align:center}
 .login-box h1{font-size:1.4rem;margin-bottom:8px;color:var(--navy)}
-.login-box p{color:var(--ink);font-size:.9rem;margin-bottom:24px}
+.login-box p{color:var(--dim);font-size:.9rem;margin-bottom:24px}
 .login-box input{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;margin-bottom:12px;font-size:1rem}
-.login-box button{width:100%;padding:12px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:1rem;cursor:pointer;font-weight:600}
+.login-box button{width:100%;padding:12px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:1rem;cursor:pointer;font-weight:600}
 .login-box button:hover{background:#2563eb}
-#loginErr{color:var(--err);font-size:.85rem;margin-top:12px;display:none}
+#loginErr{color:var(--red);font-size:.85rem;margin-top:12px;display:none}
 /* Sidebar */
 .sidebar{width:240px;background:var(--navy);color:#fff;position:fixed;height:100vh;overflow-y:auto;flex-shrink:0}
 .sidebar .brand{padding:20px;font-weight:800;font-size:1.1rem;border-bottom:1px solid rgba(255,255,255,.1)}
-.sidebar .brand span{color:var(--blue)}
+.sidebar .brand span{color:var(--accent)}
 .sidebar .sub{padding:12px 20px;font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:1px}
 .nav-item{display:block;padding:11px 20px;color:rgba(255,255,255,.7);text-decoration:none;font-size:.9rem;cursor:pointer;border-left:3px solid transparent}
 .nav-item:hover{background:rgba(255,255,255,.05);color:#fff}
-.nav-item.active{background:rgba(47,134,246,.15);color:#fff;border-left-color:var(--blue)}
+.nav-item.active{background:rgba(47,134,246,.15);color:#fff;border-left-color:var(--accent)}
 .sidebar .user{position:absolute;bottom:0;left:0;right:0;padding:16px 20px;border-top:1px solid rgba(255,255,255,.1);font-size:.8rem}
 .sidebar .user button{background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff;padding:8px 16px;border-radius:6px;cursor:pointer;width:100%;margin-top:8px}
 /* Main */
 .main{margin-left:240px;flex:1;padding:32px;min-width:0}
 .page-head{margin-bottom:28px}
 .page-head h1{font-size:1.6rem;color:var(--navy)}
-.page-head .date{font-size:.8rem;color:var(--ink);letter-spacing:1px;margin-top:4px}
+.page-head .date{font-size:.8rem;color:var(--dim);letter-spacing:1px;margin-top:4px}
 /* Cards */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px}
 .card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .card .num{font-size:1.8rem;font-weight:700;color:var(--navy)}
-.card .num.blue{color:var(--blue)}
-.card .num.green{color:var(--ok)}
-.card .lbl{font-size:.8rem;color:var(--ink);margin-top:4px}
+.card .num.blue{color:var(--accent)}
+.card .num.green{color:var(--green)}
+.card .lbl{font-size:.8rem;color:var(--dim);margin-top:4px}
 /* Sections */
 .section{background:#fff;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .section h2{font-size:1rem;color:var(--navy);margin-bottom:4px;letter-spacing:.5px}
-.section .desc{font-size:.82rem;color:var(--ink);margin-bottom:16px}
+.section .desc{font-size:.82rem;color:var(--dim);margin-bottom:16px}
 table{width:100%;border-collapse:collapse;font-size:.88rem}
-th{text-align:left;padding:10px;border-bottom:2px solid var(--mist);color:var(--ink);font-size:.75rem;letter-spacing:.5px;font-weight:600}
-td{padding:10px;border-bottom:1px solid var(--mist)}
+th{text-align:left;padding:10px;border-bottom:2px solid var(--bg);color:var(--dim);font-size:.75rem;letter-spacing:.5px;font-weight:600}
+td{padding:10px;border-bottom:1px solid var(--bg)}
 .badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:600}
 .badge.pending{background:#fef3c7;color:#92400e}
 .badge.approved{background:#dcfce7;color:#166534}
 .badge.rejected{background:#fee2e2;color:#991b1b}
 .btn{padding:8px 16px;border:none;border-radius:6px;cursor:pointer;font-size:.85rem;font-weight:600}
-.btn-primary{background:var(--blue);color:#fff}
-.btn-secondary{background:var(--mist);color:var(--navy)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-secondary{background:var(--bg);color:var(--navy)}
 .btn-sm{padding:5px 12px;font-size:.78rem}
 .search-bar{display:flex;gap:12px;margin-bottom:16px}
 .search-bar input{flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:.9rem}
 .filters{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
 .filters button{padding:8px 16px;border:1px solid #ddd;background:#fff;border-radius:20px;cursor:pointer;font-size:.85rem}
 .filters button.active{background:var(--navy);color:#fff;border-color:var(--navy)}
-.empty{text-align:center;padding:40px;color:var(--ink)}
+.empty{text-align:center;padding:40px;color:var(--dim)}
 .hidden{display:none!important}
 @media(max-width:768px){.sidebar{width:60px}.sidebar .brand,.sidebar .sub,.nav-item span,.sidebar .user{display:none}.main{margin-left:60px;padding:16px}}
 </style>
@@ -217,7 +218,7 @@ async function renderOverview(c){
   const total = ov.totalProducts || 8765;
   c.innerHTML = `
     <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;align-items:center">
-      <span style="font-size:.75rem;color:var(--ink);letter-spacing:.5px">RANGE</span>
+      <span style="font-size:.75rem;color:var(--dim);letter-spacing:.5px">RANGE</span>
       ${["Today","Last 7 days","Last 30 days","Last 90 days","This year","All time"].map(r=>
         '<button class="btn btn-sm '+(r==="Last 30 days"?"btn-primary":"btn-secondary")+'" style="border-radius:6px">'+r+'</button>'
       ).join("")}
@@ -225,9 +226,9 @@ async function renderOverview(c){
       <select style="padding:8px;border:1px solid #ddd;border-radius:6px;font-size:.85rem"><option>All channels</option></select>
     </div>
     <div class="section"><h2>COMMERCIAL</h2><div class="desc">Figures are grouped by currency and never combined across currencies. Margin appears only when every sold line has a recorded cost.</div>
-      <div style="background:var(--mist);border-radius:8px;padding:32px;text-align:center">
+      <div style="background:var(--bg);border-radius:8px;padding:32px;text-align:center">
         <div style="font-weight:700;margin-bottom:8px">No orders in this range</div>
-        <div style="font-size:.85rem;color:var(--ink)">Revenue, order counts and margins are calculated from recorded orders. Create an<br>order from the Orders section and it will appear here immediately.</div>
+        <div style="font-size:.85rem;color:var(--dim)">Revenue, order counts and margins are calculated from recorded orders. Create an<br>order from the Orders section and it will appear here immediately.</div>
       </div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
@@ -245,20 +246,20 @@ async function renderOverview(c){
       </div>
       <div class="section"><h2>INVENTORY HEALTH</h2><div class="desc">Available = physical − reserved, from the live ledger.</div>
         <div class="cards" style="grid-template-columns:1fr 1fr;margin-bottom:0">
-          <div class="card"><div style="font-size:.7rem;color:var(--ink);letter-spacing:.5px">SKUS</div><div class="num">${fmt(total)}</div></div>
-          <div class="card"><div style="font-size:.7rem;color:var(--ink);letter-spacing:.5px">UNITS IN STOCK</div><div class="num">0</div></div>
-          <div class="card"><div style="font-size:.7rem;color:var(--ink);letter-spacing:.5px">RESERVED</div><div class="num">0</div></div>
-          <div class="card"><div style="font-size:.7rem;color:var(--ink);letter-spacing:.5px">AVAILABLE TO SELL</div><div class="num">0</div></div>
-          <div class="card"><div style="font-size:.7rem;color:var(--ink);letter-spacing:.5px">LOW STOCK</div><div class="num">0</div></div>
-          <div class="card"><div style="font-size:.7rem;color:var(--ink);letter-spacing:.5px">OUT OF STOCK</div><div class="num">${fmt(total)}</div></div>
+          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">SKUS</div><div class="num">${fmt(total)}</div></div>
+          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">UNITS IN STOCK</div><div class="num">0</div></div>
+          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">RESERVED</div><div class="num">0</div></div>
+          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">AVAILABLE TO SELL</div><div class="num">0</div></div>
+          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">LOW STOCK</div><div class="num">0</div></div>
+          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">OUT OF STOCK</div><div class="num">${fmt(total)}</div></div>
         </div>
       </div>
       <div class="section"><h2>CUSTOMERS</h2>
         <div class="cards" style="grid-template-columns:1fr 1fr;margin-bottom:16px">
-          <div class="card"><div style="font-size:.7rem;color:var(--ink);letter-spacing:.5px">REGISTERED</div><div class="num">0</div></div>
-          <div class="card"><div style="font-size:.7rem;color:var(--ink);letter-spacing:.5px">NEW IN RANGE</div><div class="num">0</div></div>
-          <div class="card"><div style="font-size:.7rem;color:var(--ink);letter-spacing:.5px">REQUIRE REVIEW</div><div class="num">0</div></div>
-          <div class="card"><div style="font-size:.7rem;color:var(--ink);letter-spacing:.5px">FAILED ADMIN LOGINS</div><div class="num">0</div><div style="font-size:.7rem;color:var(--ink)">From the audit log</div></div>
+          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">REGISTERED</div><div class="num">0</div></div>
+          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">NEW IN RANGE</div><div class="num">0</div></div>
+          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">REQUIRE REVIEW</div><div class="num">0</div></div>
+          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">FAILED ADMIN LOGINS</div><div class="num">0</div><div style="font-size:.7rem;color:var(--dim)">From the audit log</div></div>
         </div>
         <button class="btn btn-secondary" style="width:100%" onclick="showSection('customers')">Open customer directory</button>
       </div>
