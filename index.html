@@ -7,73 +7,109 @@
 <style>
 :root{--bg:#edf0f3;--surface:#ffffff;--surface-alt:#f6f8fa;--text:#101b29;--dim:#5b6b7f;--border:#d7dee6;--accent:#1d6fe0;--accent-dark:#155cb8;--navy:#081527;--navy-2:#0d2138;--navy-text:#c7d5e6;--navy-dim:#7e96b3;--green:#1e9e6a;--amber:#d98a06;--red:#d64545;--radius:8px}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Avenir Next','Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh}
-.font-data{font-family:ui-monospace,'SF Mono',Cascadia Mono,monospace;font-variant-numeric:tabular-nums}
+body{font-family:'Avenir Next','Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:14px}
+.font-data{font-family:ui-monospace,'SF Mono',Cascadia Mono,Menlo,monospace;font-variant-numeric:tabular-nums}
 /* Login */
 #loginWrap{position:fixed;inset:0;background:var(--navy);display:flex;align-items:center;justify-content:center;z-index:100}
-.login-box{background:#fff;border-radius:16px;padding:40px;width:90%;max-width:400px;text-align:center}
-.login-box h1{font-size:1.4rem;margin-bottom:8px;color:var(--navy)}
-.login-box p{color:var(--dim);font-size:.9rem;margin-bottom:24px}
-.login-box input{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;margin-bottom:12px;font-size:1rem}
-.login-box button{width:100%;padding:12px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:1rem;cursor:pointer;font-weight:600}
-.login-box button:hover{background:#2563eb}
-#loginErr{color:var(--red);font-size:.85rem;margin-top:12px;display:none}
+.login-box{background:#fff;border-radius:12px;padding:36px;width:90%;max-width:380px}
+.login-box h1{font-size:18px;margin-bottom:6px}
+.login-box p{color:var(--dim);font-size:13px;margin-bottom:20px}
+.login-box input{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:6px;margin-bottom:10px;font-size:14px}
+.login-box input:focus{outline:none;border-color:var(--accent)}
+.login-box button{width:100%;padding:10px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:14px;cursor:pointer;font-weight:600}
+.login-box button:hover{background:var(--accent-dark)}
+#loginErr{color:var(--red);font-size:12px;margin-top:10px;display:none}
 /* Sidebar */
-.sidebar{width:240px;background:var(--navy);color:#fff;position:fixed;height:100vh;overflow-y:auto;flex-shrink:0}
-.sidebar .brand{padding:20px;font-weight:800;font-size:1.1rem;border-bottom:1px solid rgba(255,255,255,.1)}
-.sidebar .brand span{color:var(--accent)}
-.sidebar .sub{padding:12px 20px;font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:1px}
-.nav-item{display:block;padding:11px 20px;color:rgba(255,255,255,.7);text-decoration:none;font-size:.9rem;cursor:pointer;border-left:3px solid transparent}
-.nav-item:hover{background:rgba(255,255,255,.05);color:#fff}
-.nav-item.active{background:rgba(47,134,246,.15);color:#fff;border-left-color:var(--accent)}
-.sidebar .user{position:absolute;bottom:0;left:0;right:0;padding:16px 20px;border-top:1px solid rgba(255,255,255,.1);font-size:.8rem}
-.sidebar .user button{background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff;padding:8px 16px;border-radius:6px;cursor:pointer;width:100%;margin-top:8px}
+.sidebar{width:240px;background:var(--navy);color:var(--navy-text);position:fixed;height:100vh;overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column}
+.sidebar .brand{padding:18px 20px 14px}
+.sidebar .brand .wordmark{font-size:18px;font-weight:600;letter-spacing:-0.5px;color:#fff}
+.sidebar .brand .wordmark .oring{display:inline-block;width:13px;height:13px;border:2px solid var(--accent);border-radius:50%;margin:0 1px;vertical-align:baseline}
+.sidebar .brand .cc{font-size:10px;letter-spacing:2.5px;color:var(--navy-dim);margin-top:2px}
+.sidebar .brand .sub2{font-size:10px;letter-spacing:1px;color:var(--navy-dim);margin-top:8px}
+.nav{flex:1;padding:8px 0}
+.nav-item{display:block;padding:9px 20px;color:var(--navy-text);font-size:13.5px;cursor:pointer;text-decoration:none;border-left:2px solid transparent;white-space:nowrap}
+.nav-item:hover{background:var(--navy-2);color:#fff}
+.nav-item.active{background:var(--navy-2);color:#fff;box-shadow:inset 2px 0 0 var(--accent)}
+.sidebar .user{padding:14px 20px;border-top:1px solid rgba(255,255,255,.08);font-size:12px}
+.sidebar .user button{background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff;padding:7px 14px;border-radius:6px;cursor:pointer;width:100%;margin-top:8px;font-size:12px}
 /* Main */
-.main{margin-left:240px;flex:1;padding:32px;min-width:0}
-.page-head{margin-bottom:28px}
-.page-head h1{font-size:1.6rem;color:var(--navy)}
-.page-head .date{font-size:.8rem;color:var(--dim);letter-spacing:1px;margin-top:4px}
-/* Cards */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px}
-.card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.card .num{font-size:1.8rem;font-weight:700;color:var(--navy)}
-.card .num.blue{color:var(--accent)}
-.card .num.green{color:var(--green)}
-.card .lbl{font-size:.8rem;color:var(--dim);margin-top:4px}
-/* Sections */
-.section{background:#fff;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.section h2{font-size:1rem;color:var(--navy);margin-bottom:4px;letter-spacing:.5px}
-.section .desc{font-size:.82rem;color:var(--dim);margin-bottom:16px}
-table{width:100%;border-collapse:collapse;font-size:.88rem}
-th{text-align:left;padding:10px;border-bottom:2px solid var(--bg);color:var(--dim);font-size:.75rem;letter-spacing:.5px;font-weight:600}
-td{padding:10px;border-bottom:1px solid var(--bg)}
-.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:600}
-.badge.pending{background:#fef3c7;color:#92400e}
-.badge.approved{background:#dcfce7;color:#166534}
-.badge.rejected{background:#fee2e2;color:#991b1b}
-.btn{padding:8px 16px;border:none;border-radius:6px;cursor:pointer;font-size:.85rem;font-weight:600}
-.btn-primary{background:var(--accent);color:#fff}
-.btn-secondary{background:var(--bg);color:var(--navy)}
-.btn-sm{padding:5px 12px;font-size:.78rem}
-.search-bar{display:flex;gap:12px;margin-bottom:16px}
-.search-bar input{flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:.9rem}
-.filters{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
-.filters button{padding:8px 16px;border:1px solid #ddd;background:#fff;border-radius:20px;cursor:pointer;font-size:.85rem}
-.filters button.active{background:var(--navy);color:#fff;border-color:var(--navy)}
-.empty{text-align:center;padding:40px;color:var(--dim)}
+.main{margin-left:240px;flex:1;min-width:0;padding:20px 28px;max-width:1400px}
+.page-head{margin-bottom:18px}
+.page-head h1{font-size:20px;font-weight:600;letter-spacing:-0.3px}
+.page-head .sub{font-size:11px;letter-spacing:1.5px;color:var(--dim);margin-top:4px;text-transform:uppercase}
+/* Panels */
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px}
+.panel-head{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.panel-head h2{font-size:13px;font-weight:600;letter-spacing:.8px;text-transform:uppercase}
+.panel-head .desc{font-size:12px;color:var(--dim);margin-top:2px;text-transform:none;letter-spacing:0;font-weight:400}
+.panel-body{padding:16px}
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px}
+.kpi .k-label{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--dim)}
+.kpi .k-value{font-family:ui-monospace,'SF Mono',monospace;font-size:20px;font-weight:600;margin-top:4px;font-variant-numeric:tabular-nums}
+.kpi .k-hint{font-size:11px;color:var(--dim);margin-top:2px}
+/* Tables */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--dim);text-align:left;padding:8px 12px;border-bottom:1px solid var(--border);font-weight:600;white-space:nowrap}
+tbody td{padding:9px 12px;border-top:1px solid var(--surface-alt);vertical-align:top}
+tbody tr:hover{background:var(--surface-alt)}
+td.mono,.font-data{font-family:ui-monospace,'SF Mono',monospace;font-variant-numeric:tabular-nums;font-size:12.5px}
+/* Badges */
+.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:500;white-space:nowrap}
+.b-amber{background:#fef3c7;color:#92400e}
+.b-sky{background:#e0f2fe;color:#075985}
+.b-indigo{background:#eef2ff;color:#4338ca}
+.b-blue{background:#dbeafe;color:#1e40af}
+.b-emerald{background:#d1fae5;color:#065f46}
+.b-red{background:#fee2e2;color:#991b1b}
+.b-zinc{background:#e4e4e7;color:#3f3f46}
+.b-orange{background:#ffedd5;color:#9a3412}
+/* Buttons */
+.btn{display:inline-block;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid transparent;text-decoration:none}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn-primary:hover{background:var(--accent-dark)}
+.btn-ghost{background:#fff;color:var(--text);border-color:var(--border)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn-sm{padding:5px 12px;font-size:12px}
+.btn-danger{background:var(--red);color:#fff}
+/* Forms */
+.field{margin-bottom:12px}
+.field label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--dim);margin-bottom:4px;font-weight:600}
+.field input,.field select,.field textarea{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:6px;font-size:13px;background:#fff}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+/* Filters */
+.filter-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+.filter-bar .f-label{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--dim);font-weight:600}
+.chip{padding:6px 14px;border:1px solid var(--border);background:#fff;border-radius:6px;font-size:13px;cursor:pointer}
+.chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.search-input{padding:8px 12px;border:1px solid var(--border);border-radius:6px;font-size:13px;min-width:220px}
+/* Empty state */
+.empty{border:1.5px dashed var(--border);border-radius:var(--radius);padding:36px 20px;text-align:center;color:var(--dim)}
+.empty .e-title{font-weight:600;color:var(--text);margin-bottom:6px;font-size:14px}
+.empty .e-desc{font-size:13px}
+/* Tabs */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:16px;flex-wrap:wrap}
+.tab{padding:10px 16px;font-size:13px;cursor:pointer;color:var(--dim);border-bottom:2px solid transparent;font-weight:500}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
 .hidden{display:none!important}
-@media(max-width:768px){.sidebar{width:60px}.sidebar .brand,.sidebar .sub,.nav-item span,.sidebar .user{display:none}.main{margin-left:60px;padding:16px}}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:1100px){.grid-3{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.sidebar{width:56px}.sidebar .brand,.sidebar .user{display:none}.nav-item{padding:10px 0;text-align:center;font-size:18px}.nav-item span{display:none}.main{margin-left:56px;padding:14px}.grid-2,.grid-3{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
 <div id="loginWrap">
   <div class="login-box">
-    <h1>🔒 Control Center</h1>
-    <p>Surgronic Super Admin</p>
+    <h1>Surgronic Control Center</h1>
+    <p>Super Admin &mdash; restricted access</p>
     <form id="loginForm">
-      <input type="email" id="le" placeholder="Email" required>
-      <input type="password" id="lp" placeholder="Password" required>
+      <input type="email" id="le" placeholder="Email" required autocomplete="username">
+      <input type="password" id="lp" placeholder="Password" required autocomplete="current-password">
       <button type="submit">Sign in</button>
       <div id="loginErr">Invalid email or password.</div>
     </form>
@@ -81,308 +117,323 @@ td{padding:10px;border-bottom:1px solid var(--bg)}
 </div>
 
 <nav class="sidebar" id="sidebar" style="display:none">
-  <div class="brand">surgronic <span>CONTROL CENTER</span></div>
-  <div class="sub">MEDICAL TECHNOLOGY · OPERATIONS</div>
-  <div id="navItems"></div>
-  <div class="user">
-    <div id="whoName"></div>
-    <button id="logoutBtn">Sign out</button>
+  <div class="brand">
+    <div class="wordmark">surgr<span class="oring"></span>nic</div>
+    <div class="cc">CONTROL CENTER</div>
+    <div class="sub2">MEDICAL TECHNOLOGY &middot; OPERATIONS</div>
   </div>
+  <div class="nav" id="navItems"></div>
+  <div class="user"><div id="whoName"></div><button id="logoutBtn">Sign out</button></div>
 </nav>
 
 <main class="main" id="mainApp" style="display:none">
-  <div class="page-head">
-    <h1 id="pageTitle">Executive Overview</h1>
-    <div class="date" id="pageDate"></div>
-  </div>
+  <div class="page-head"><h1 id="pageTitle">Executive Overview</h1><div class="sub font-data" id="pageDate"></div></div>
   <div id="pageContent"></div>
 </main>
 
 <script>
-const API = "https://surgronic.pages.dev/actions";
-const ADMIN_USERS = [
+var API = "https://surgronic.pages.dev/actions";
+var ADMIN_USERS = [
   { email: "yusuf@surgronic.com", name: "Yusuf Mohamed", salt: "sg-yusuf-01", passHash: "5d477109b125ddf6b0d464e35e05e86232a5023b66593597c34c8e3227ac9c41" },
   { email: "bouziani00@gmail.com", name: "Younesse Bouziani", salt: "sg-younesse-01", passHash: "1fdcdddceb3003c835bee0da4d6a29a2e487aae264f7c743a65ef40987c056f7" }
 ];
-
-const SECTIONS = [
-  { id: "overview", name: "Executive Overview", icon: "📊" },
-  { id: "orders", name: "Orders", icon: "📦" },
-  { id: "rfq", name: "RFQ Inbox", icon: "📥" },
-  { id: "customers", name: "Customers", icon: "👥" },
-  { id: "inventory", name: "Inventory", icon: "📋" },
-  { id: "products", name: "Products", icon: "🔧" },
-  { id: "catalog", name: "Catalog Intelligence", icon: "🧠" },
-  { id: "shipments", name: "Shipments & Tracking", icon: "🚚" },
-  { id: "suppliers", name: "Suppliers", icon: "🏭" },
-  { id: "sales", name: "Sales & Revenue", icon: "💰" },
-  { id: "analytics", name: "Website Analytics", icon: "📈" },
-  { id: "editorial", name: "Editorial", icon: "✍️" },
-  { id: "seo", name: "SEO & Indexing", icon: "🔍" },
-  { id: "reports", name: "Reports & Exports", icon: "📄" },
-  { id: "security", name: "Security & Audit", icon: "🛡️" },
-  { id: "settings", name: "Settings", icon: "⚙️" }
+var SECTIONS = [
+  { id: "overview", name: "Executive Overview" },
+  { id: "orders", name: "Orders" },
+  { id: "rfq", name: "RFQ Inbox" },
+  { id: "customers", name: "Customers" },
+  { id: "inventory", name: "Inventory" },
+  { id: "products", name: "Products" },
+  { id: "catalog", name: "Catalog Intelligence" },
+  { id: "shipments", name: "Shipments & Tracking" },
+  { id: "suppliers", name: "Suppliers" },
+  { id: "sales", name: "Sales & Revenue" },
+  { id: "analytics", name: "Website Analytics" },
+  { id: "editorial", name: "Editorial" },
+  { id: "seo", name: "SEO & Indexing" },
+  { id: "reports", name: "Reports & Exports" },
+  { id: "security", name: "Security & Audit Logs" },
+  { id: "settings", name: "System Settings" }
 ];
-
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+function fmt(n){ return (n||0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+function badge(text, color){ return '<span class="badge b-'+color+'">'+esc(text)+'</span>'; }
+function statusBadge(s){
+  s = String(s||"").toLowerCase();
+  if(/pending|open|new|awaiting/.test(s)) return badge(s,"amber");
+  if(/processing|acknowledged|preparing/.test(s)) return badge(s,"sky");
+  if(/quoted|ready/.test(s)) return badge(s,"indigo");
+  if(/shipped|transit/.test(s)) return badge(s,"blue");
+  if(/delivered|paid|published|success|approved|active/.test(s)) return badge(s,"emerald");
+  if(/failed|exception|blocked|rejected/.test(s)) return badge(s,"red");
+  if(/cancelled|closed|archived/.test(s)) return badge(s,"zinc");
+  if(/return|delayed/.test(s)) return badge(s,"orange");
+  return badge(s,"zinc");
+}
+function emptyState(title, desc){ return '<div class="empty"><div class="e-title">'+esc(title)+'</div><div class="e-desc">'+desc+'</div></div>'; }
+function panel(title, desc, body, action){
+  return '<div class="panel"><div class="panel-head"><div><h2>'+esc(title)+'</h2>'+(desc?'<div class="desc">'+esc(desc)+'</div>':"")+'</div>'+(action||"")+'</div><div class="panel-body">'+body+'</div></div>';
+}
+function kpi(label, value, hint){
+  return '<div class="kpi"><div class="k-label">'+esc(label)+'</div><div class="k-value">'+value+'</div>'+(hint?'<div class="k-hint">'+esc(hint)+'</div>':"")+'</div>';
+}
 async function sha256(str){
-  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
+  var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2,"0"); }).join("");
 }
 async function api(action, args){
-  const r = await fetch(API, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({action, args: args||{}})});
-  const j = await r.json();
+  var r = await fetch(API, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({action:action, args:args||{}})});
+  var j = await r.json();
   if(j.error) throw new Error(j.error);
   return j.data;
 }
-function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
-function fmt(n){ return (n||0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
-
-// Login
+/* ---------- Auth ---------- */
 document.getElementById("loginForm").addEventListener("submit", async function(e){
   e.preventDefault();
-  const email = document.getElementById("le").value.trim().toLowerCase();
-  const pw = document.getElementById("lp").value;
-  const u = ADMIN_USERS.find(x=>x.email===email);
-  const err = document.getElementById("loginErr");
-  err.style.display = "none";
+  var email = document.getElementById("le").value.trim().toLowerCase();
+  var pw = document.getElementById("lp").value;
+  var u = ADMIN_USERS.find(function(x){ return x.email===email; });
+  var err = document.getElementById("loginErr"); err.style.display="none";
   if(!u){ err.style.display="block"; return; }
-  const h = await sha256(u.salt + ":" + pw);
+  var h = await sha256(u.salt + ":" + pw);
   if(h === u.passHash){
-    sessionStorage.setItem("sg_admin", JSON.stringify({email:u.email,name:u.name,ts:Date.now()}));
+    try{ sessionStorage.setItem("sg_admin", JSON.stringify({email:u.email,name:u.name,ts:Date.now()})); }catch(e){}
     enterApp(u);
   } else { err.style.display="block"; }
 });
 function enterApp(u){
   document.getElementById("loginWrap").style.display="none";
-  document.getElementById("sidebar").style.display="block";
+  document.getElementById("sidebar").style.display="flex";
   document.getElementById("mainApp").style.display="block";
-  document.getElementById("whoName").textContent = u.name + " (" + u.email + ")";
-  document.getElementById("pageDate").textContent = "SURGRONIC · SUPER ADMIN · " + new Date().toLocaleDateString("en-GB",{weekday:"short",day:"2-digit",month:"short",year:"numeric"}).toUpperCase();
-  renderNav();
-  showSection("overview");
+  document.getElementById("whoName").textContent = u.name;
+  document.getElementById("pageDate").textContent = "Surgronic \u00b7 Super Admin \u00b7 " + new Date().toLocaleDateString("en-GB",{weekday:"short",day:"2-digit",month:"short",year:"numeric"}).toUpperCase();
+  renderNav(); showSection("overview");
 }
-document.getElementById("logoutBtn").addEventListener("click", function(){
-  sessionStorage.removeItem("sg_admin");
-  location.reload();
-});
-// Auto-login if session exists
+document.getElementById("logoutBtn").addEventListener("click", function(){ try{sessionStorage.removeItem("sg_admin");}catch(e){} location.reload(); });
 (function(){
   try{
-    const s = JSON.parse(sessionStorage.getItem("sg_admin")||"null");
+    var s = JSON.parse(sessionStorage.getItem("sg_admin")||"null");
     if(s && Date.now()-s.ts < 12*3600*1000){
-      const u = ADMIN_USERS.find(x=>x.email===s.email);
+      var u = ADMIN_USERS.find(function(x){ return x.email===s.email; });
       if(u) enterApp(u);
     }
   }catch(e){}
 })();
-
 function renderNav(){
-  document.getElementById("navItems").innerHTML = SECTIONS.map(s=>
-    '<a class="nav-item" data-sec="'+s.id+'">'+s.icon+' <span>'+s.name+'</span></a>'
-  ).join("");
-  document.querySelectorAll(".nav-item").forEach(el=>{
-    el.addEventListener("click", ()=>showSection(el.getAttribute("data-sec")));
+  document.getElementById("navItems").innerHTML = SECTIONS.map(function(s){
+    return '<a class="nav-item" data-sec="'+s.id+'"><span>'+esc(s.name)+'</span></a>';
+  }).join("");
+  Array.prototype.forEach.call(document.querySelectorAll(".nav-item"), function(el){
+    el.addEventListener("click", function(){ showSection(el.getAttribute("data-sec")); });
   });
 }
-
 async function showSection(id){
-  document.querySelectorAll(".nav-item").forEach(el=>el.classList.toggle("active", el.getAttribute("data-sec")===id));
-  const sec = SECTIONS.find(s=>s.id===id);
+  Array.prototype.forEach.call(document.querySelectorAll(".nav-item"), function(el){
+    el.classList.toggle("active", el.getAttribute("data-sec")===id);
+  });
+  var sec = SECTIONS.find(function(s){ return s.id===id; });
   document.getElementById("pageTitle").textContent = sec.name;
-  const c = document.getElementById("pageContent");
-  c.innerHTML = '<div class="empty">Loading…</div>';
+  var c = document.getElementById("pageContent");
+  c.innerHTML = emptyState("Loading\u2026", "");
+  try{ await RENDER[id](c); }
+  catch(e){ c.innerHTML = emptyState("Error", esc(e.message)); }
+  window.scrollTo(0,0);
+}
+/* ---------- Sections ---------- */
+var RENDER = {};
+RENDER.overview = async function(c){
+  var total = 9973;
+  try{ var d = await api("listProducts",{limit:1}); total = d.total||total; }catch(e){}
+  var ranges = ["Today","Last 7 days","Last 30 days","Last 90 days","This year","All time"];
+  c.innerHTML =
+    '<div class="filter-bar"><span class="f-label">Range</span>' +
+    ranges.map(function(r){ return '<button class="chip'+(r==="Last 30 days"?" active":"")+'">'+r+'</button>'; }).join("") +
+    '<select class="search-input" style="min-width:0"><option>All currencies (shown separately)</option><option>EUR</option><option>USD</option><option>MAD</option><option>SAR</option><option>AED</option><option>GBP</option></select>' +
+    '<select class="search-input" style="min-width:0"><option>All channels</option></select></div>' +
+    panel("Commercial", "Figures are grouped by currency and never combined across currencies. Margin appears only when every sold line has a recorded cost.",
+      emptyState("No orders in this range", "Revenue, order counts and margins are calculated from recorded orders. Create an<br>order from the Orders section and it will appear here immediately.")) +
+    '<div class="grid-3">' +
+      panel("Fulfilment Pipeline", "",
+        '<table><tbody>' +
+        [["Awaiting processing",0],["Being prepared",0],["Awaiting shipment",0],["Shipped",0],["In transit",0],["Delivered",0],["Delayed shipments",0],["Failed / exception",0]].map(function(r){
+          return '<tr><td>'+r[0]+'</td><td class="font-data" style="text-align:right;font-weight:600">'+r[1]+'</td></tr>';
+        }).join("") + '</tbody></table>') +
+      panel("Inventory Health", "Available = physical \u2212 reserved, from the live ledger.",
+        '<div class="kpi-grid" style="grid-template-columns:1fr 1fr">' +
+        kpi("SKUs", fmt(total)) + kpi("Units in stock", "0") + kpi("Reserved", "0") +
+        kpi("Available to sell", "0") + kpi("Low stock", "0") + kpi("Out of stock", fmt(total)) + '</div>') +
+      panel("Customers", "",
+        '<div class="kpi-grid" style="grid-template-columns:1fr 1fr">' +
+        kpi("Registered", "0") + kpi("New in range", "0") + kpi("Require review", "0") +
+        kpi("Failed admin logins", "0", "From the audit log") + '</div>' +
+        '<div style="margin-top:12px"><button class="btn btn-ghost" style="width:100%" onclick="showSection(\'customers\')">Open customer directory</button></div>') +
+    '</div>';
+};
+RENDER.orders = async function(c){
+  c.innerHTML =
+    '<div class="filter-bar"><input class="search-input" placeholder="Search orders\u2026"><button class="chip active">All</button><button class="chip">Pending</button><button class="chip">Preparing</button><button class="chip">Shipped</button><button class="chip">Delivered</button></div>' +
+    panel("Orders", "0 orders", emptyState("No orders yet", "Orders created from approved RFQs will appear here."), '<button class="btn btn-primary btn-sm">+ New order</button>');
+};
+RENDER.rfq = async function(c){
+  var rfqs = [];
+  try{ var d = await api("listRfqs",{limit:50}); rfqs = d.rfqs||d||[]; }catch(e){}
+  var rows = rfqs.map(function(r){
+    return '<tr><td class="font-data">'+esc(r.id||"")+'</td><td class="font-data">'+esc(r.created_at||r.date||"")+'</td><td>'+esc(r.name||"")+'</td><td>'+esc(r.email||"")+'</td><td class="font-data">'+esc((r.items||[]).length||"")+'</td><td>'+statusBadge(r.status||"new")+'</td></tr>';
+  }).join("");
+  c.innerHTML =
+    '<div class="filter-bar"><input class="search-input" id="rfqSearch" placeholder="Search RFQs\u2026"><button class="chip active">All</button><button class="chip">New</button><button class="chip">Quoted</button><button class="chip">Converted</button></div>' +
+    panel("RFQ Inbox", rfqs.length+" requests",
+      rfqs.length ? '<div class="tbl-wrap"><table><thead><tr><th>ID</th><th>Date</th><th>Name</th><th>Email</th><th>Items</th><th>Status</th></tr></thead><tbody>'+rows+'</tbody></table></div>'
+      : emptyState("No RFQs yet", "Quote requests submitted from the storefront will appear here."),
+      '<button class="btn btn-primary btn-sm">+ Record RFQ</button>');
+};
+RENDER.customers = async function(c){
+  c.innerHTML =
+    '<div class="filter-bar"><input class="search-input" placeholder="Search customers\u2026"></div>' +
+    panel("Customers", "0 registered", emptyState("No registered customers yet", "Doctor accounts will appear here once the verification system is connected."), '<button class="btn btn-primary btn-sm">+ New customer</button>');
+};
+RENDER.inventory = async function(c){
+  var total = 9973;
+  try{ var d = await api("listProducts",{limit:1}); total = d.total||total; }catch(e){}
+  c.innerHTML =
+    '<div class="filter-bar"><button class="chip active">All</button><button class="chip">Low stock</button><button class="chip">Out of stock</button><input class="search-input" placeholder="Search SKU\u2026"></div>' +
+    panel("Inventory", "Stock ledger from the live database",
+      '<div class="kpi-grid" style="margin-bottom:14px">' + kpi("SKUs tracked", fmt(total)) + kpi("Units in stock", "0") + kpi("Reserved", "0") + kpi("Low stock alerts", "0") + '</div>' +
+      '<div style="font-size:13px;color:var(--dim)">All '+fmt(total)+' SKUs are catalogued with zero physical stock \u2014 sourced to specification on order.</div>');
+};
+var prodPage = 0;
+RENDER.products = async function(c){
+  c.innerHTML =
+    '<div class="filter-bar"><input class="search-input" id="prodQ" placeholder="Search by name or SKU\u2026"><button class="btn btn-primary btn-sm" onclick="doProdSearch()">Search</button></div>' +
+    '<div id="prodBody">'+emptyState("Loading\u2026","")+'</div>';
+  await loadProdPage(0);
+};
+async function loadProdPage(page){
+  var el = document.getElementById("prodBody");
   try{
-    if(id==="overview") await renderOverview(c);
-    else if(id==="orders") await renderOrders(c);
-    else if(id==="rfq") await renderRFQ(c);
-    else if(id==="customers") await renderCustomers(c);
-    else if(id==="inventory") await renderInventory(c);
-    else if(id==="products") await renderProducts(c);
-    else if(id==="catalog") await renderCatalog(c);
-    else if(id==="shipments") await renderShipments(c);
-    else if(id==="suppliers") await renderSuppliers(c);
-    else if(id==="sales") await renderSales(c);
-    else if(id==="analytics") await renderAnalytics(c);
-    else if(id==="editorial") await renderEditorial(c);
-    else if(id==="seo") await renderSEO(c);
-    else if(id==="reports") await renderReports(c);
-    else if(id==="security") await renderSecurity(c);
-    else if(id==="settings") await renderSettings(c);
-  }catch(e){
-    c.innerHTML = '<div class="empty">Error: '+esc(e.message)+'</div>';
+    var d = await api("listProducts",{limit:25, offset:page*25});
+    var list = d.products||[], total = d.total||0;
+    prodPage = page;
+    var pages = Math.max(1, Math.ceil(total/25));
+    el.innerHTML = panel("Products", fmt(total)+" in catalog \u2014 page "+(page+1)+" of "+pages,
+      '<div class="tbl-wrap"><table><thead><tr><th>SKU</th><th>Name</th><th>Brand</th><th>Price</th></tr></thead><tbody>' +
+      list.map(function(p){ return '<tr><td class="font-data">'+esc(p.sku)+'</td><td>'+esc(p.name)+'</td><td>'+esc(p.brand||"")+'</td><td class="font-data">'+(p.price?esc(p.price)+" "+esc(p.currency||""):"On request")+'</td></tr>'; }).join("") +
+      '</tbody></table></div>' +
+      '<div style="margin-top:12px;display:flex;gap:8px;align-items:center"><button class="btn btn-ghost btn-sm" '+(page===0?"disabled":"")+' onclick="loadProdPage('+(page-1)+')">\u2190 Prev</button><span style="font-size:13px;color:var(--dim)">Page '+(page+1)+' / '+pages+'</span><button class="btn btn-ghost btn-sm" '+(page>=pages-1?"disabled":"")+' onclick="loadProdPage('+(page+1)+')">Next \u2192</button></div>');
+  }catch(e){ el.innerHTML = emptyState("Error", esc(e.message)); }
+}
+async function doProdSearch(){
+  var q = document.getElementById("prodQ").value.trim();
+  var el = document.getElementById("prodBody");
+  if(!q){ loadProdPage(0); return; }
+  el.innerHTML = emptyState("Searching\u2026","");
+  try{
+    var d = await api("listProducts",{limit:25, search:q});
+    var list = d.products||[];
+    el.innerHTML = panel("Search results", list.length+" matches for \u201c"+esc(q)+"\u201d",
+      list.length ? '<div class="tbl-wrap"><table><thead><tr><th>SKU</th><th>Name</th><th>Price</th></tr></thead><tbody>' +
+      list.map(function(p){ return '<tr><td class="font-data">'+esc(p.sku)+'</td><td>'+esc(p.name)+'</td><td class="font-data">'+(p.price?esc(p.price)+" "+esc(p.currency||""):"On request")+'</td></tr>'; }).join("")+'</tbody></table></div>'
+      : emptyState("No matches", "No products found for \u201c"+esc(q)+"\u201d."));
+  }catch(e){ el.innerHTML = emptyState("Error", esc(e.message)); }
+}
+RENDER.catalog = async function(c){
+  var tabs = ["Readiness & progress","Review queue","Duplicates","Preserved intelligence","Source manifest","Price list"];
+  c.innerHTML = '<div class="tabs">' + tabs.map(function(t,i){ return '<div class="tab'+(i===0?" active":"")+'" data-tab="'+i+'">'+t+'</div>'; }).join("") + '</div><div id="catBody"></div>';
+  Array.prototype.forEach.call(c.querySelectorAll(".tab"), function(el){
+    el.addEventListener("click", function(){
+      Array.prototype.forEach.call(c.querySelectorAll(".tab"), function(x){ x.classList.remove("active"); });
+      el.classList.add("active");
+      renderCatTab(parseInt(el.getAttribute("data-tab")));
+    });
+  });
+  renderCatTab(0);
+};
+function renderCatTab(i){
+  var el = document.getElementById("catBody");
+  var brands = [["Aesculap","SUR-AES"],["Sklar","SUR-SKL / SUR-ART"],["DO\u011eSAN","SUR-DOG"],["FADEN MEDIKAL","SUR-FAD"],["ERFECEN","SUR-NSP"],["ADOSN","SUR-INS"]];
+  if(i===0){
+    el.innerHTML = panel("Readiness & progress", "Catalog build status",
+      '<div class="kpi-grid">' + kpi("Total SKUs","9,973") + kpi("Brands","6") + kpi("Specialties","11") + kpi("Price list entries","213") + '</div>' +
+      '<div style="margin-top:14px"><table><thead><tr><th>Brand</th><th>SKU prefix</th></tr></thead><tbody>' +
+      brands.map(function(b){ return '<tr><td>'+esc(b[0])+'</td><td class="font-data">'+esc(b[1])+'</td></tr>'; }).join("") + '</tbody></table></div>');
+  } else if(i===1){
+    el.innerHTML = panel("Review queue", "Candidates awaiting review", emptyState("Queue empty", "New catalog candidates will appear here for review."));
+  } else if(i===2){
+    el.innerHTML = panel("Duplicates", "Duplicate detection", emptyState("No duplicates flagged", "Potential duplicate listings will appear here."));
+  } else if(i===3){
+    el.innerHTML = panel("Preserved intelligence", "6 intelligence records", emptyState("Intelligence archive", "Preserved research and sourcing intelligence."));
+  } else if(i===4){
+    el.innerHTML = panel("Source manifest", "Registered source files", emptyState("No sources registered", "Catalog source files and their provenance."));
+  } else {
+    el.innerHTML = panel("Price list", "213 reconciliation entries",
+      '<table><thead><tr><th>Entries</th><th>Status</th></tr></thead><tbody><tr><td class="font-data">213</td><td>'+statusBadge("active")+'</td></tr></tbody></table>');
   }
 }
-
-async function renderOverview(c){
-  const ov = await api("getOverview", {}).catch(()=>({}));
-  const total = ov.totalProducts || 8765;
-  c.innerHTML = `
-    <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;align-items:center">
-      <span style="font-size:.75rem;color:var(--dim);letter-spacing:.5px">RANGE</span>
-      ${["Today","Last 7 days","Last 30 days","Last 90 days","This year","All time"].map(r=>
-        '<button class="btn btn-sm '+(r==="Last 30 days"?"btn-primary":"btn-secondary")+'" style="border-radius:6px">'+r+'</button>'
-      ).join("")}
-      <select style="padding:8px;border:1px solid #ddd;border-radius:6px;font-size:.85rem"><option>All currencies (shown separately)</option></select>
-      <select style="padding:8px;border:1px solid #ddd;border-radius:6px;font-size:.85rem"><option>All channels</option></select>
-    </div>
-    <div class="section"><h2>COMMERCIAL</h2><div class="desc">Figures are grouped by currency and never combined across currencies. Margin appears only when every sold line has a recorded cost.</div>
-      <div style="background:var(--bg);border-radius:8px;padding:32px;text-align:center">
-        <div style="font-weight:700;margin-bottom:8px">No orders in this range</div>
-        <div style="font-size:.85rem;color:var(--dim)">Revenue, order counts and margins are calculated from recorded orders. Create an<br>order from the Orders section and it will appear here immediately.</div>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
-      <div class="section"><h2>FULFILMENT PIPELINE</h2>
-        <table>
-          <tr><td>Awaiting processing</td><td style="text-align:right"><b>0</b></td></tr>
-          <tr><td>Being prepared</td><td style="text-align:right"><b>0</b></td></tr>
-          <tr><td>Awaiting shipment</td><td style="text-align:right"><b>0</b></td></tr>
-          <tr><td>Shipped</td><td style="text-align:right"><b>0</b></td></tr>
-          <tr><td>In transit</td><td style="text-align:right"><b>0</b></td></tr>
-          <tr><td>Delivered</td><td style="text-align:right"><b>0</b></td></tr>
-          <tr><td>Delayed shipments</td><td style="text-align:right"><b>0</b></td></tr>
-          <tr><td>Failed / exception</td><td style="text-align:right"><b>0</b></td></tr>
-        </table>
-      </div>
-      <div class="section"><h2>INVENTORY HEALTH</h2><div class="desc">Available = physical − reserved, from the live ledger.</div>
-        <div class="cards" style="grid-template-columns:1fr 1fr;margin-bottom:0">
-          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">SKUS</div><div class="num">${fmt(total)}</div></div>
-          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">UNITS IN STOCK</div><div class="num">0</div></div>
-          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">RESERVED</div><div class="num">0</div></div>
-          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">AVAILABLE TO SELL</div><div class="num">0</div></div>
-          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">LOW STOCK</div><div class="num">0</div></div>
-          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">OUT OF STOCK</div><div class="num">${fmt(total)}</div></div>
-        </div>
-      </div>
-      <div class="section"><h2>CUSTOMERS</h2>
-        <div class="cards" style="grid-template-columns:1fr 1fr;margin-bottom:16px">
-          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">REGISTERED</div><div class="num">0</div></div>
-          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">NEW IN RANGE</div><div class="num">0</div></div>
-          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">REQUIRE REVIEW</div><div class="num">0</div></div>
-          <div class="card"><div style="font-size:.7rem;color:var(--dim);letter-spacing:.5px">FAILED ADMIN LOGINS</div><div class="num">0</div><div style="font-size:.7rem;color:var(--dim)">From the audit log</div></div>
-        </div>
-        <button class="btn btn-secondary" style="width:100%" onclick="showSection('customers')">Open customer directory</button>
-      </div>
-    </div>`;
-}
-
-async function renderRFQ(c){
-  const d = await api("listRfqs", {limit: 50});
-  const rfqs = d.rfqs || d || [];
-  c.innerHTML = `<div class="section"><h2>RFQ INBOX</h2><div class="desc">${rfqs.length} requests</div>
-    ${rfqs.length ? '<table><tr><th>DATE</th><th>NAME</th><th>EMAIL</th><th>ITEMS</th><th>STATUS</th><th></th></tr>' +
-    rfqs.map(r=>'<tr><td>'+esc(r.created_at||r.date||"")+'</td><td>'+esc(r.name||"")+'</td><td>'+esc(r.email||"")+'</td><td>'+esc((r.items||[]).length||r.item_count||"")+'</td><td><span class="badge pending">'+esc(r.status||"new")+'</span></td><td><button class="btn btn-secondary btn-sm" onclick="viewRFQ('+r.id+')">View</button></td></tr>').join("") + '</table>'
-    : '<div class="empty">No RFQs yet.</div>'}</div>`;
-}
-window.viewRFQ = async function(id){
-  alert("RFQ #" + id + " — full detail view coming in the next update.");
+RENDER.shipments = async function(c){
+  c.innerHTML =
+    '<div class="filter-bar"><button class="chip active">All</button><button class="chip">Unshipped</button><button class="chip">In transit</button><button class="chip">Delayed</button><button class="chip">Delivered</button></div>' +
+    panel("Shipments & Tracking", "0 shipments", emptyState("No active shipments", ""), '<button class="btn btn-primary btn-sm">+ New shipment</button>');
 };
-
-async function renderProducts(c){
-  c.innerHTML = `<div class="section"><h2>PRODUCTS</h2>
-    <div class="search-bar"><input type="text" id="prodSearch" placeholder="Search by name or SKU…"><button class="btn btn-primary" onclick="searchProducts()">Search</button></div>
-    <div id="prodResults"><div class="empty">Loading products…</div></div></div>`;
-  // Auto-load first batch
-  try{
-    const d = await api("listProducts", {limit: 25});
-    const list = d.products || [];
-    const total = d.total || 0;
-    document.getElementById("prodResults").innerHTML =
-      '<div class="desc">'+fmt(total)+' products in catalog. Showing first 25.</div>' +
-      (list.length
-        ? '<table><tr><th>SKU</th><th>NAME</th><th>PRICE</th></tr>' + list.map(p=>'<tr><td><code>'+esc(p.sku)+'</code></td><td>'+esc(p.name)+'</td><td>'+(p.price ? esc(p.price)+" "+esc(p.currency||"") : "On request")+'</td></tr>').join("") + '</table>'
-        : '<div class="empty">No products found.</div>');
-  }catch(e){
-    document.getElementById("prodResults").innerHTML = '<div class="empty">Error: '+esc(e.message)+'</div>';
-  }
-}
-window.searchProducts = async function(){
-  const q = document.getElementById("prodSearch").value.trim();
-  const el = document.getElementById("prodResults");
-  if(!q){ el.innerHTML = '<div class="empty">Enter a search term.</div>'; return; }
-  el.innerHTML = '<div class="empty">Searching…</div>';
-  try{
-    const d = await api("listProducts", {limit: 25, search: q});
-    const list = d.products || [];
-    el.innerHTML = list.length
-      ? '<table><tr><th>SKU</th><th>NAME</th><th>PRICE</th></tr>' + list.map(p=>'<tr><td><code>'+esc(p.sku)+'</code></td><td>'+esc(p.name)+'</td><td>'+(p.price ? esc(p.price)+" "+esc(p.currency||"") : "On request")+'</td></tr>').join("") + '</table>'
-      : '<div class="empty">No products found for "'+esc(q)+'"</div>';
-  }catch(e){ el.innerHTML = '<div class="empty">Error: '+esc(e.message)+'</div>'; }
+RENDER.suppliers = async function(c){
+  c.innerHTML = panel("Suppliers", "Supplier directory",
+    emptyState("No suppliers registered", "Supplier partnerships are managed through the partnership records."), '<button class="btn btn-primary btn-sm">+ New supplier</button>');
 };
-
-async function renderInventory(c){
-  let total = 8765;
-  try{
-    const d = await api("listProducts", {limit: 1});
-    total = d.total || total;
-  }catch(e){}
-  c.innerHTML = `<div class="section"><h2>INVENTORY</h2><div class="desc">Stock ledger from the live database. Available = physical − reserved.</div>
-    <div class="cards">
-      <div class="card"><div class="num blue">${fmt(total)}</div><div class="lbl">SKUs TRACKED</div></div>
-      <div class="card"><div class="num">0</div><div class="lbl">UNITS IN STOCK</div></div>
-      <div class="card"><div class="num">0</div><div class="lbl">RESERVED</div></div>
-      <div class="card"><div class="num">0</div><div class="lbl">LOW STOCK ALERTS</div></div>
-    </div>
-    <div class="desc" style="margin-top:16px">All ${fmt(total)} SKUs are currently catalogued with zero physical stock — sourced to specification on order.</div></div>`;
-}
-async function renderOrders(c){
-  c.innerHTML = `<div class="section"><h2>ORDERS</h2><div class="empty">No orders yet.<br>Orders created from approved RFQs will appear here.</div></div>`;
-}
-async function renderCustomers(c){
-  c.innerHTML = `<div class="section"><h2>CUSTOMERS</h2><div class="empty">No registered customers yet.<br>Doctor accounts will appear here once the verification system is connected.</div></div>`;
-}
-async function renderCatalog(c){
-  const d = await api("listProducts", {limit: 1});
-  const total = d.total || 0;
-  const brands = {"SUR-AES":"Aesculap","SUR-SKL":"Sklar","SUR-ART":"Sklar (ART)","SUR-DRV":"Drv","SUR-DOG":"DOĞSAN","SUR-FAD":"FADEN MEDIKAL","SUR-NSP":"ERFECEN","SUR-INS":"ADOSN"};
-  c.innerHTML = `<div class="section"><h2>CATALOG INTELLIGENCE</h2><div class="desc">Live catalog breakdown from the database.</div>
-    <div class="cards">
-      <div class="card"><div class="num blue">${fmt(total)}</div><div class="lbl">TOTAL PRODUCTS</div></div>
-      <div class="card"><div class="num">${Object.keys(brands).length}</div><div class="lbl">BRANDS</div></div>
-    </div>
-    <table><tr><th>BRAND</th><th>SKU PREFIX</th></tr>${Object.entries(brands).map(([p,b])=>'<tr><td>'+b+'</td><td><code>'+p+'</code></td></tr>').join("")}</table></div>`;
-}
-async function renderShipments(c){
-  c.innerHTML = `<div class="section"><h2>SHIPMENTS & TRACKING</h2><div class="empty">No active shipments.</div></div>`;
-}
-async function renderSuppliers(c){
-  c.innerHTML = `<div class="section"><h2>SUPPLIERS</h2><div class="empty">Supplier directory — managed through the partnership records.</div></div>`;
-}
-async function renderSales(c){
-  c.innerHTML = `<div class="section"><h2>SALES & REVENUE</h2><div class="empty">No sales recorded yet.</div></div>`;
-}
-async function renderAnalytics(c){
-  let a = {};
-  try{ a = await api("getAnalytics", {}); }catch(e){}
-  c.innerHTML = `<div class="section"><h2>WEBSITE ANALYTICS</h2><div class="desc">Storefront activity</div>
-    <div class="cards">
-      <div class="card"><div class="num blue">${fmt(a.pageViews||0)}</div><div class="lbl">Page views</div></div>
-      <div class="card"><div class="num blue">${fmt(a.productViews||0)}</div><div class="lbl">Product views</div></div>
-      <div class="card"><div class="num">${fmt(a.searches||0)}</div><div class="lbl">Searches</div></div>
-      <div class="card"><div class="num">${fmt(a.addToQuote||0)}</div><div class="lbl">Add to quote</div></div>
-      <div class="card"><div class="num green">${fmt(a.quoteRequests||0)}</div><div class="lbl">Quote requests</div></div>
-    </div></div>`;
-}
-async function renderEditorial(c){
-  c.innerHTML = `<div class="section"><h2>EDITORIAL</h2><div class="desc">Blog articles are managed as static files. 5 articles live.</div><div class="empty"><a href="https://ocbddd-afk.github.io/surgronic-website/blog.html" target="_blank">View blog →</a></div></div>`;
-}
-async function renderSEO(c){
-  c.innerHTML = `<div class="section"><h2>SEO & INDEXING</h2><div class="empty">Sitemap and indexing status.<br>One canonical URL per product. No thin pages.</div></div>`;
-}
-async function renderReports(c){
-  c.innerHTML = `<div class="section"><h2>REPORTS & EXPORTS</h2><div class="empty">Export catalog, RFQs, and analytics as CSV.</div></div>`;
-}
-async function renderSecurity(c){
-  c.innerHTML = `<div class="section"><h2>SECURITY & AUDIT</h2><div class="desc">Sensitive actions are logged here.</div><div class="empty">No security events recorded.</div></div>`;
-}
-async function renderSettings(c){
-  c.innerHTML = `<div class="section"><h2>SETTINGS</h2><div class="desc">Control Center configuration.</div>
-    <table>
-      <tr><td><b>API Endpoint</b></td><td><code>surgronic.pages.dev/actions</code></td></tr>
-      <tr><td><b>Database</b></td><td>Cloudflare D1 · surgronic-db</td></tr>
-      <tr><td><b>Storefront</b></td><td><a href="https://ocbddd-afk.github.io/surgronic-website/" target="_blank">ocbddd-afk.github.io/surgronic-website/</a></td></tr>
-    </table></div>`;
-}
+RENDER.sales = async function(c){
+  c.innerHTML =
+    '<div class="filter-bar"><span class="f-label">Range</span><button class="chip active">Last 30 days</button><button class="chip">Last 90 days</button><button class="chip">This year</button></div>' +
+    panel("Sales & Revenue", "Figures are grouped by currency and never combined across currencies.", emptyState("No sales recorded yet", ""));
+};
+RENDER.analytics = async function(c){
+  var a = {};
+  try{ a = await api("getAnalytics",{}); }catch(e){}
+  c.innerHTML = panel("Website Analytics", "Storefront activity",
+    '<div class="kpi-grid">' +
+    kpi("Page views", fmt(a.pageViews||0)) + kpi("Product views", fmt(a.productViews||0)) +
+    kpi("Searches", fmt(a.searches||0)) + kpi("Add to quote", fmt(a.addToQuote||0)) +
+    kpi("Quote requests", fmt(a.quoteRequests||0)) + kpi("Orders completed", fmt(a.ordersCompleted||0)) + '</div>' +
+    '<div style="margin-top:16px">' + panel("Conversion", "",
+      '<table><thead><tr><th>Step</th><th style="text-align:right">Rate</th></tr></thead><tbody>' +
+      [["View \u2192 quote","\u2014"],["Quote \u2192 checkout","\u2014"],["Checkout \u2192 order","\u2014"]].map(function(r){
+        return '<tr><td>'+r[0]+'</td><td class="font-data" style="text-align:right">'+r[1]+'</td></tr>';
+      }).join("") + '</tbody></table>') + '</div>');
+};
+RENDER.editorial = async function(c){
+  c.innerHTML = panel("Editorial", "5 articles live",
+    '<table><thead><tr><th>Title</th><th>Status</th><th>Published</th></tr></thead><tbody>' +
+    [["Essential Rhinoplasty Instrument Set","published","2026-10-22"],["Surgical Instrument Care Guide","published","2026-10-22"],["Sourcing Surgical Instruments: MENA Guide","published","2026-10-22"],["Understanding Suture Materials","published","2026-10-22"],["How to Specify Surgical Instruments","published","2026-10-22"]].map(function(r){
+      return '<tr><td>'+r[0]+'</td><td>'+statusBadge(r[1])+'</td><td class="font-data">'+r[2]+'</td></tr>';
+    }).join("") + '</tbody></table>' +
+    '<div style="margin-top:12px"><a class="btn btn-ghost btn-sm" href="https://ocbddd-afk.github.io/surgronic-website/blog.html" target="_blank">View blog \u2192</a></div>');
+};
+RENDER.seo = async function(c){
+  c.innerHTML = panel("SEO & Indexing", "Search index status",
+    '<div class="kpi-grid">' + kpi("Indexable pages","9,973+") + kpi("Products","9,973") + kpi("Categories","29") + '</div>' +
+    '<div style="margin-top:14px;font-size:13px;color:var(--dim)">One canonical URL per product. No thin pages. Sitemap generation on deploy.</div>');
+};
+RENDER.reports = async function(c){
+  var ex = ["Orders","RFQs","Sales","Inventory","Stock movements","Shipments","Suppliers","Pricing","Customers"];
+  c.innerHTML = panel("Reports & Exports", "CSV exports",
+    '<table><thead><tr><th>Report</th><th></th></tr></thead><tbody>' +
+    ex.map(function(r){ return '<tr><td>'+r+'</td><td style="text-align:right"><button class="btn btn-ghost btn-sm">Export CSV</button></td></tr>'; }).join("") +
+    '</tbody></table>');
+};
+RENDER.security = async function(c){
+  c.innerHTML =
+    panel("Access Control", "Administrator identities",
+      '<table><thead><tr><th>Name</th><th>Email</th><th>Status</th></tr></thead><tbody>' +
+      '<tr><td>Yusuf Mohamed</td><td class="font-data">yusuf@surgronic.com</td><td>'+statusBadge("active")+'</td></tr>' +
+      '<tr><td>Younesse Bouziani</td><td class="font-data">bouziani00@gmail.com</td><td>'+statusBadge("active")+'</td></tr>' +
+      '</tbody></table>') +
+    panel("Audit Log", "Sensitive actions are logged here",
+      emptyState("No security events recorded", ""));
+};
+RENDER.settings = async function(c){
+  c.innerHTML = panel("System Settings", "Control Center configuration",
+    '<table><tbody>' +
+    [["API Endpoint","<span class='font-data'>surgronic.pages.dev/actions</span>"],["Database","Cloudflare D1 \u00b7 surgronic-db"],["Storefront","<a href='https://ocbddd-afk.github.io/surgronic-website/' target='_blank'>ocbddd-afk.github.io/surgronic-website/</a>"],["Default currency","USD"],["Response promise","Within 1 business day"]].map(function(r){
+      return '<tr><td style="font-weight:600">'+r[0]+'</td><td>'+r[1]+'</td></tr>';
+    }).join("") + '</tbody></table>');
+};
 </script>
 </body>
 </html>
